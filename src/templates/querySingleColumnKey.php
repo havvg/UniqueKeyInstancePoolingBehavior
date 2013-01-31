@@ -1,6 +1,6 @@
 
 /**
- * @return <?php echo $objectClassName; ?>
+ * @return <?php echo $objectClassName; ?>|null
  */
 public function findOneBy<?php echo $columnPhpName; ?>($value)
 {
@@ -11,8 +11,9 @@ public function findOneBy<?php echo $columnPhpName; ?>($value)
     }
 
     $obj = parent::findOneBy<?php echo $columnPhpName; ?>($value);
-
-    <?php echo $peerClassName; ?>::addInstanceToPool($obj, (string) $key);
+    if ($obj) {
+        <?php echo $peerClassName; ?>::addInstanceToPool($obj, $key);
+    }
 
     return $obj;
 }
