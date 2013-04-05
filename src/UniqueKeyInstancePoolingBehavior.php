@@ -17,8 +17,12 @@ class UniqueKeyInstancePoolingBehavior extends Behavior
             $columns = $eachKey->getColumns();
 
             if (1 === count($columns)) {
-                $script .= $this->renderTemplate('querySingleColumnKey', array(
+                $script .= $this->renderTemplate('queryCreateUniquePoolingKey', array(
                     'keyPrefix' => sprintf('unique_%s_', $columns[0]),
+                    'columnPhpName' => $this->getTable()->getColumn($columns[0])->getPhpName(),
+                ));
+
+                $script .= $this->renderTemplate('querySingleColumnKey', array(
                     'columnPhpName' => $this->getTable()->getColumn($columns[0])->getPhpName(),
                     'objectClassName' => $builder->getStubObjectBuilder()->getClassname(),
                     'peerClassName' => $builder->getStubPeerBuilder()->getClassname(),

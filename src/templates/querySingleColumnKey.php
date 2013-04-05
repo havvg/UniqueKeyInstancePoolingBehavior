@@ -4,7 +4,7 @@
  */
 public function findOneBy<?php echo $columnPhpName; ?>($value)
 {
-    $key = md5('<?php echo $keyPrefix; ?>'.$value);
+    $key = static::createUniquePoolingKeyFor<?php echo $columnPhpName; ?>($value);
 
     if ((null !== $obj = <?php echo $peerClassName; ?>::getInstanceFromPool($key)) and !$this->formatter) {
         return $obj;

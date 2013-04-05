@@ -55,8 +55,16 @@ XML;
         $this->assertTrue(method_exists('UKIPUserQuery', 'findOneByEmail'));
     }
 
+    public function testStaticKeyGenerator()
+    {
+        $key = UKIPUserQuery::createUniquePoolingKeyForEmail('mail@example.com');
+
+        $this->assertEquals(md5('unique_email_mail@example.com'), $key);
+    }
+
     /**
      * @depends testMethodHasBeenGenerated
+     * @depends testStaticKeyGenerator
      */
     public function testInstanceIsPutIntoPool()
     {
@@ -79,6 +87,7 @@ XML;
 
     /**
      * @depends testMethodHasBeenGenerated
+     * @depends testStaticKeyGenerator
      */
     public function testInstanceIsReadFromPool()
     {
